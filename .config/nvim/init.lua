@@ -1,3 +1,13 @@
+
+----------------------------------------------------
+-- Readme
+----------------------------------------------------
+-- Welcome to my humble neovim config.
+--
+-- The config has the following dependencies
+-- 1. Packer: https://github.com/wbthomason/packer.nvim
+-- 2. Language Servers: https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+
 ----------------------------------------------------
 -- Utilities
 ----------------------------------------------------
