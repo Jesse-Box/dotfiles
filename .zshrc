@@ -145,6 +145,15 @@ export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 
+# Aliases
+alias nv="nvim .config/nvim/init.lua"
+alias jb="cd Github/jessebox/"
+alias s="cd Github/sentry/"
+alias cs="config status"
+alias ca="config add -i"
+alias cc="config commit -m"
+alias cp="config push"
+
 # Sentry
 export VOLTA_HOME="~/.volta"
 grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"
