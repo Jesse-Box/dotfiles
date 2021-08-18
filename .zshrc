@@ -147,11 +147,12 @@ export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 
 # Aliases
 alias nv="nvim .config/nvim/init.lua"
+alias zshrc="nvim .zshrc"
 alias jb="cd Github/jessebox/"
 alias s="cd Github/sentry/"
 alias cs="config status"
 alias ca="config add -i"
-alias cc="config commit -m"
+alias cc="config commit"
 alias cp="config push"
 
 # Sentry
