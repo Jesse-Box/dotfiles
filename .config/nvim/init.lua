@@ -248,6 +248,7 @@ vim.cmd [[ autocmd CursorHold * lua PrintDiagnostics() ]]
 
       require'lspconfig'.tsserver.setup{}
       require'lspconfig'.jsonls.setup{}
+      require'lspconfig'.yamlls.setup{}
     end
 
   }

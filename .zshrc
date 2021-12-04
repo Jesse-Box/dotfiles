@@ -147,6 +147,7 @@ export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 
 # Aliases
 alias nv="nvim .config/nvim/init.lua"
+alias ali="nvim .config/alacritty/alacritty.yml"
 alias zshrc="nvim .zshrc"
 alias jb="cd Github/jessebox/"
 alias s="cd Github/sentry/"
