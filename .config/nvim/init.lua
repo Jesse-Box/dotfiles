@@ -91,7 +91,7 @@ return require('packer').startup(function(use)
       keymap('n', '<C-P>', [[<Cmd>lua require('telescope.builtin').find_files()<cr>]], default)
       keymap('n', '<C-F>', [[<Cmd>lua require('telescope.builtin').live_grep()<cr>]], default)
       keymap('n', '<C-B>', [[<Cmd>lua require('telescope.builtin').buffers()<cr>]], default)
-      keymap('n', '<C-H>', [[<Cmd>lua require('telescope.builtin').help_tags()<cr>]], default)
+      --`keymap('n', '<C-H>', [[<Cmd>lua require('telescope.builtin').help_tags()<cr>]], default)
       local actions = require('telescope.actions')
 
       require('telescope').setup{
