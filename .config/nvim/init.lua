@@ -1,4 +1,3 @@
-
 ----------------------------------------------------
 -- Readme
 ----------------------------------------------------
@@ -22,6 +21,14 @@ function keymap(mode, lhs, rhs, opts)
     return vim.api.nvim_set_keymap(mode, lhs, rhs, default)
 else
     return vim.api.nvim_set_keymap(mode, lhs, rhs, opts) 
+  end
+end
+
+function buf_keymap(mode,lhs, rhs, opts)
+  if opts == default then
+    return vim.api.buf_set_keymap(mode, lhs, rhs, default)
+else
+    return vim.api.buf_set_keymap(mode, lhs, rhs, opts)
   end
 end
 
@@ -91,7 +98,7 @@ return require('packer').startup(function(use)
       keymap('n', '<C-P>', [[<Cmd>lua require('telescope.builtin').find_files()<cr>]], default)
       keymap('n', '<C-F>', [[<Cmd>lua require('telescope.builtin').live_grep()<cr>]], default)
       keymap('n', '<C-B>', [[<Cmd>lua require('telescope.builtin').buffers()<cr>]], default)
-      --`keymap('n', '<C-H>', [[<Cmd>lua require('telescope.builtin').help_tags()<cr>]], default)
+      --keymap('n', '<C-H>', [[<Cmd>lua require('telescope.builtin').help_tags()<cr>]], default)
       local actions = require('telescope.actions')
 
       require('telescope').setup{
@@ -161,49 +168,51 @@ return require('packer').startup(function(use)
     config = function()
       local nvim_lsp = require('lspconfig')
 
+      keymap('n', '<Leader>e', '<Cmd>lua vim.diagnostic.open_float()<CR>', default)
+      keymap('n', '[d', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', default)
+      keymap('n', ']d', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', default)
+      keymap('n', '<Leader>q', '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', default)
+
       -- Use an on_attach function to only map the following keys
       -- after the language server attaches to the current buffer
       local on_attach = function(client, bufnr)
-        local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-        local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-        --Enable completion triggered by <c-x><c-o>
-        buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
+        -- Enable completion triggered by <c-x><c-o>
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        
+        -- Mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', default)
-        buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', default)
-        buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', default)
-        buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', default)
-        buf_set_keymap('n', '<C-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', default)
-        buf_set_keymap('n', '<Leader>wa', '<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', default)
-        buf_set_keymap('n', '<Leader>wr', '<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', default)
-        buf_set_keymap('n', '<Leader>wl', '<Cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', default)
-        buf_set_keymap('n', '<Leader>D', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', default)
-        buf_set_keymap('n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', default)
-        buf_set_keymap('n', '<Leader>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', default)
-        buf_set_keymap('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', default)
-        buf_set_keymap('n', '<Leader>e', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', default)
-        buf_set_keymap('n', '[d', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', default)
-        buf_set_keymap('n', ']d', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', default)
-        buf_set_keymap('n', '<Leader>q', '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', default)
-        buf_set_keymap("n", "<Leader>f", "<Cmd>lua vim.lsp.buf.formatting()<CR>", default)
+        buf_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', default)
+        buf_keymap(bufnr,'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', default)
+        buf_keymap(bufnr,'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', default)
+        buf_keymap(bufnr,'n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', default)
+        buf_keymap(bufnr,'n', '<C-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', default)
+        buf_keymap(bufnr,'n', '<Leader>wa', '<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', default)
+        buf_keymap(bufnr,'n', '<Leader>wr', '<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', default)
+        buf_keymap(bufnr,'n', '<Leader>wl', '<Cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', default)
+        buf_keymap(bufnr,'n', '<Leader>D', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', default)
+        buf_keymap(bufnr,'n', '<Leader>rn', '<Cmd>lua vim.lsp.buf.rename()<CR>', default)
+        buf_keymap(bufnr,'n', '<Leader>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', default)
+        buf_keymap(bufnr,'n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', default)
+        buf_keymap(bufnr,"n", "<Leader>f", "<Cmd>lua vim.lsp.buf.formatting()<CR>", default)
       end
+
+      vim.diagnostic.config({
+        virtual_text = false
+      })
 
       local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
 
       for type, icon in pairs(signs) do
-        local hl = "LspDiagnosticsSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
       end
 
       function PrintDiagnostics(opts, bufnr, line_nr, client_id)
-        opts = opts or {}
-
         bufnr = bufnr or 0
         line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
+        opts = opts or {['lnum'] = line_nr}
 
-        local line_diagnostics = vim.lsp.diagnostic.get_line_diagnostics(bufnr, line_nr, opts, client_id)
+        local line_diagnostics = vim.diagnostic.get(bufnr, opts)
         if vim.tbl_isempty(line_diagnostics) then return end
 
         local diagnostic_message = ""
@@ -217,13 +226,12 @@ return require('packer').startup(function(use)
         vim.api.nvim_echo({{diagnostic_message, "Normal"}}, false, {})
       end
 
-vim.cmd [[ autocmd CursorHold * lua PrintDiagnostics() ]]
+      vim.cmd [[ autocmd CursorHold * lua PrintDiagnostics() ]]
 
       -- You will likely want to reduce updatetime which affects CursorHold
       -- note: this setting is global and should be set only once
       o.updatetime = 100
-      cmd [[autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})]]
-
+      vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
       local servers = { "tsserver" }
       for _, lsp in ipairs(servers) do
@@ -392,65 +400,41 @@ vim.cmd [[ autocmd CursorHold * lua PrintDiagnostics() ]]
           topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
           changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
         },
-
-        numhl = false,
-        linehl = false,
-
-        keymaps = {
-          -- Default keymap options
-          noremap = true,
-
-          ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
-          ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
-
-          ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-          ['v <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-          ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-          ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-          ['n <leader>hR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-          ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<cr>',
-          ['n <leader>hb'] = '<cmd>lua require"gitsigns".blame_line(true)<cr>',
-
-          -- text objects
-          ['o ih'] = ':<c-u>lua require"gitsigns.actions".select_hunk()<cr>',
-          ['x ih'] = ':<c-u>lua require"gitsigns.actions".select_hunk()<cr>'
-
-        },
-
-        watch_index = {
+        signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+        numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+        linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+        word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+        watch_gitdir = {
           interval = 1000,
-          follow_files = true,
+          follow_files = true
         },
-
-        current_line_blame = false,
-        current_line_blame_delay = 1000,
-        current_line_blame_position = 'eol',
+        attach_to_untracked = true,
+        current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+        current_line_blame_opts = {
+          virt_text = true,
+          virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+          delay = 1000,
+          ignore_whitespace = false,
+        },
+        current_line_blame_formatter_opts = {
+          relative_time = false
+        },
         sign_priority = 6,
         update_debounce = 100,
-        status_formatter = nil, -- use default
-        word_diff = false,
-        use_decoration_api = true,
-        use_internal_diff = true,
-
+        status_formatter = nil, -- Use default
+        max_file_length = 40000,
+        preview_config = {
+          -- Options passed to nvim_open_win
+          border = 'single',
+          style = 'minimal',
+          relative = 'cursor',
+          row = 0,
+          col = 1
+        },
+        yadm = {
+          enable = false
+        },
       }
-   end
-  }
-
-  ----------------------------------------------------
-  -- plugin / lsp-trouble
-  ----------------------------------------------------
-  use {
-    'folke/lsp-trouble.nvim',
-
-    requires = 'kyazdani42/nvim-web-devicons', 
-    config = function()
-      keymap('n','<Leader>xx', '<Cmd>Trouble<cr>',default)
-      keymap('n','<Leader>xw', '<Cmd>Trouble lsp_workspace_diagnostics<cr>',default)
-      keymap('n','<Leader>xd', '<Cmd>Trouble lsp_document_diagnostics<cr>',default)
-      keymap('n','<Leader>xl', '<Cmd>Trouble loclist<cr>',default)
-      keymap('n','<Leader>xq', '<Cmd>Trouble quickfix<cr>',default)
-      keymap('n','<Leader>gR', '<Cmd>Trouble lsp_references<cr>',default)
-      require('trouble').setup()
     end
   }
 
