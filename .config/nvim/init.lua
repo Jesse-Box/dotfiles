@@ -257,6 +257,7 @@ return require('packer').startup(function(use)
       require'lspconfig'.tsserver.setup{}
       require'lspconfig'.jsonls.setup{}
       require'lspconfig'.yamlls.setup{}
+      require'lspconfig'.dartls.setup{}
     end
 
   }
@@ -442,5 +443,19 @@ return require('packer').startup(function(use)
   -- plugin / vim-fugitive
   ----------------------------------------------------
   use 'tpope/vim-fugitive'
-
+  
+  ----------------------------------------------------
+  -- plugin / nvim-tree
+  ----------------------------------------------------
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    },
+    config = function() 
+      require'nvim-tree'.setup {
+        keymap("n", "<Leader>e", ":NvimTreeToggle<cr>", default)
+      } 
+    end
+  }
 end)
