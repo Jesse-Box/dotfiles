@@ -263,6 +263,21 @@ return require('packer').startup(function(use)
   }
 
   ----------------------------------------------------
+  -- plugin / lsp-installer
+  ----------------------------------------------------
+  use {
+    'williamboman/nvim-lsp-installer'
+  }
+
+  config = function()
+    local lsp_installer = require('nvim-lsp-installer')
+    lsp_installer.on_server_ready(function(server)
+      local opts = {}
+      server:setup(opts)
+    end)
+  end
+
+  ----------------------------------------------------
   -- plugin / compe
   ----------------------------------------------------
   use { 
@@ -356,7 +371,15 @@ return require('packer').startup(function(use)
     run = ':TSUpdate',
 
     config = function()
-      require('nvim-treesitter').setup()
+      require('nvim-treesitter').setup {
+        ensure_installed = "maintained",
+        highlight = {
+          enable = true,
+        },
+        indent = {
+          enable = true,
+        },
+      }
     end
 
   }
