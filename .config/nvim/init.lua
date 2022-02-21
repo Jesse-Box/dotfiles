@@ -1,3 +1,15 @@
+require('utils')
+require('settings')
+require('maps')
+require('plugins')
+require('theme')
+require('telescope')
+require('nvim-tree')
+require('nvim-lspconfig')
+require('nvim-compe')
+require('nvim-lsp-installer')
+require('treesitter')
+require('gitsigns')
 ----------------------------------------------------
 -- Readme
 ----------------------------------------------------
