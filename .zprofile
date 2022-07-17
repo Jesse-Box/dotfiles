@@ -11,5 +11,8 @@ grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"
 # direnv automatically activates your virtual environment for Sentry.
 eval "$(direnv hook zsh)"
 
+#Flutter
+export PATH="$PATH:$HOME/flutter/bin"
+
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8

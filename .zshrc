@@ -162,3 +162,6 @@ bindkey "ç" fzf-cd-widget
 # Sentry
 export VOLTA_HOME="$HOME/.volta"
 grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"
+
+# Tmux
+alias tmux="TERM=screen-256color-bce tmux"
