@@ -63,6 +63,7 @@ return packer.startup(function()
   use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'folke/tokyonight.nvim'
+  use 'christoomey/vim-tmux-navigator'
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()
