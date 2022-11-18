@@ -99,6 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+export EDITOR=code
+
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
@@ -146,9 +148,8 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 
 # Aliases
-alias nv="nvim .config/nvim/init.lua"
-alias ali="nvim .config/alacritty/alacritty.yml"
-alias zshrc="nvim .zshrc"
+alias ali="code .config/alacritty/alacritty.yml"
+alias zshrc="code .zshrc"
 alias jb="cd Github/jessebox/"
 alias s="cd Github/sentry/"
 alias cs="config status"
@@ -163,5 +164,4 @@ bindkey "ç" fzf-cd-widget
 export VOLTA_HOME="$HOME/.volta"
 grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"
 
-# Tmux
-alias tmux="TERM=screen-256color-bce tmux"
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet

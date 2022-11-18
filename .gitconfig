@@ -7,13 +7,13 @@
 	name = Jesse Box
 	email = me@jessebox.net
 [core]
-	editor = nvim 
-# define command which will be used when "nvim" is set as a merge tool
-[mergetool "nvim"]
-  cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
-# set "nvim" as tool for merging
+	editor = vi 
+# define command which will be used when "vi" is set as a merge tool
+[mergetool "vi"]
+  cmd = vi -f -c \"Gdiffsplit!\" \"$MERGED\"
+# set "vi" as tool for merging
 [merge]
-  tool = nvim
+  tool = vi
 # automatically launch merge tool without displaying a prompt
 [mergetool]
   prompt = false
