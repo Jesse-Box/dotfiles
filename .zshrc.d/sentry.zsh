@@ -8,3 +8,5 @@ if ! grep --silent "$VOLTA_HOME/bin" <<< "$PATH"; then
 fi
 
 export PATH="$HOME/.local/share/sentry-devenv/bin:$PATH"
+
+export SENTRY_POST_MERGE_AUTO_UPDATE=1
