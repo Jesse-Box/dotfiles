@@ -1,0 +1,6 @@
+# This is Git's per-user configuration file.
+[user]
+    name = Jesse Box
+    email = me@jessebox.net 
+[core]
+    editor = vi
