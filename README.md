@@ -42,7 +42,7 @@ For example:
 .zshrc # <-------| Symlink
 .zshrc.d/ #      |
 |- fzf.zsh #     |
-          #      | To
+          #      | Pointing
 dotfiles/ #      |
 |- .zshrc # <----| Here
 |- .zshrc.d/
