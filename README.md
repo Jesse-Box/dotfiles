@@ -1,5 +1,32 @@
 # dotfiles
-The goal of my dotfiles is to provide great search capabilities with minimal dependencies or configuration. I utilise `git` and GNU `stow` to modify repository files in safe way. Watch this [youtube video](https://www.youtube.com/watch?v=y6XCebnB9gs) to learn more.
+The goal of my dotfiles is to provide great search capabilities with minimal dependencies or configuration. I utilise `git` and GNU `stow` to manage configuration files via symlinks, allowing changes to be versioned, reversible, and immediately reflected in $HOME.
+
+## Features
+A unified interface for:
+
+### `CTRL-T`: File Search
+Search for files under the current directory and insert the selected path at the cursor.
+- Supports fuzzy matching
+- Respects `.gitignore`
+- Useful for quickly opening files in an editor or passing paths to commands
+
+### `CTRL-R`: Command History
+Search through your shell history using fuzzy matching.
+- Filters results as you type
+- Allows previewing and re-running previous commands
+- Much faster than cycling through history linearly
+
+### `ALT-C`: Directory Navigation
+Interactively search for directories and cd into the selected result.
+- Searches recursively from the current directory
+- Ideal for navigating large projects or mono-repos
+- Faster than typing or tab-completing deep paths
+
+### `rfv`: Search File Contents (Ripgrep + FZF + vi)
+Search inside files using `ripgrep`, then interactively filter and preview results with `fzf`.
+- Live search as you type
+- Syntax-highlighted previews (via bat, if installed)
+- Jumps directly to matching lines
 
 ## Dependances
 Each dependency *should* be accessible from your package manager of choice. However, I can only verify this for `homebrew` right now.
@@ -14,38 +41,84 @@ Each dependency *should* be accessible from your package manager of choice. Howe
 | [`stow`](https://www.gnu.org/software/stow/)  | `false`  | Without `stow`, these repository files won't be symlinked to their expected locations relative to `$HOME` |
 | [`kitty`](https://sw.kovidgoyal.net/kitty/)  | `false`  | This repository has configuration files specific to the kitty terminal emulator  |
 
-## Repository Guide
-### 1. Install
-Clone this repository to the root of your `$HOME` directory and install all the dependencies that are listed above. This won't do anything consequential yet...
+## GNU Stow
+GNU Stow is a **symlink manager**, not a configuration tool. It does not copy files, but, creates symbolic links from your `$HOME` directory back into this repository.
 
-### 2. Backup
-Its very likely that you've already got files matching the contents of this repository. If thats indeed the case, then I suggest renaming your current files, For example:
-```bash
-mv .zshrc .zshrc_bak
-```
-By renaming all the files that match the ones in this repository, your zsh instance and any matching package configuration will be broken — but only for moment!
+### Requirements
+Stow expects:
+1. A directory structure that mirrors the final filesystem layout
+2. No conflicting files already existing at the target locations
+3. To be run from inside the directory that contains the packages to be linked
 
-### 3. Set up
-Navigate to the `dotfiles` repository and input the following command.
+In this repository, `$HOME/dotfiles` is treated as the *source of truth*, and `$HOME` is the target.
+
+### How it works
+When you run:
+
 ```bash
 stow .
 ```
-This creates symlinks for every file in the `~/dotfiles/` directory, placing those symlinks relative to the root of your `$HOME` directory. By running the above command, you've unbroken your zsh instance and any matching package configuration. 
 
-You can test this by running `source .zshrc` from your `$HOME` directory.
+Stow:
+- Walks the directory tree inside `~/dotfiles`
+- Creates symlinks in `$HOME` that point back to matching files in `~/dotfiles`
+- Refuses to overwrite existing files that it does not manage
 
-### 4. Modify
-The way that `stow` works is that the path to tracked files in `~/dotfiles/` must match exactly to the symlink location which will be relative to your `$HOME` directory.
+At no point are files copied, instead, edits always happen inside the repository.
+
+## Repository Guide
+### 1. Install
+Clone this repository to the root of your `$HOME` directory and install the dependencies listed above. At this stage, no files are modified and no configuration is active.
+
+### 2. Backup
+Its very likely that you already have configuration files that match files in this repository.
+
+Stow will refuse to create symlinks if a file already exists, so you **must** back them up first:
+
+```bash
+mv .zshrc .zshrc_bak
+```
+
+After backing up all conflicting files, your shell or editor may appear broken — this is expected and temporary.
+
+### 3. Set up
+Navigate into the `dotfiles` repository and run:
+
+```bash
+stow .
+```
+
+This creates symlinks in `$HOME` that point back to files in `~/dotfiles`.
 
 For example:
+
 ```bash
-.zshrc # <-------| Symlink
-.zshrc.d/ #      |
-|- fzf.zsh #     |
-          #      | Pointing
-dotfiles/ #      |
-|- .zshrc # <----| Here
-|- .zshrc.d/
-|-- fzf.zsh
+~/.zshrc → ~/dotfiles/.zshrc
 ```
-Which means that any time you run `stow .` inside of `~/dotfiles/`, newly created symlinks will be located based on the file path of files inside of `~/dotfiles/`.
+
+Your shell and application configurations are now “live” again, but are fully managed by this repository.
+
+You can verify this by running:
+
+```bash
+source ~/.zshrc
+```
+
+### 4. Modify
+Stow relies entirely on directory structure.  **The path to a file inside `~/dotfiles` must exactly match the path where the symlink should appear relative to `$HOME`.**
+
+Example layout:
+```text
+$HOME
+├─ .zshrc              → symlink
+├─ .zshrc.d/
+│  └─ fzf.zsh          → symlink
+└─ dotfiles/
+   ├─ .zshrc
+   └─ .zshrc.d/
+      └─ fzf.zsh
+```
+Because of this:
+- You always edit files inside `~/dotfiles`
+- You never edit the symlinked files directly
+- Running `stow .` again will only create new symlinks for new files — existing links do not need to be refreshed
