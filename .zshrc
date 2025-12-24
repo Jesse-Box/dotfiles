@@ -1,9 +1,15 @@
 # History
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_FIND_NO_DUPS
+HISTSIZE=5000
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
 # Bindings
 setopt autocd
@@ -16,4 +22,3 @@ alias ls="ls -lah"
 for file in "$HOME/.zshrc.d/"*.zsh; do
   [ -r "$file" ] && source "$file"
 done
-
