@@ -67,11 +67,16 @@ rfv() (
       --query "$*"
 )
 
+# Bind Ctrl-F to rfv
+rfv-widget() { rfv; zle reset-prompt }
+zle -N rfv-widget
+bindkey '^F' rfv-widget
+
 # Adds additional plugins
 zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
-
+zinit light Aloxaf/fzf-tab
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -96,6 +101,8 @@ setopt autocd
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
 alias zshrc="vi .zshrc"
