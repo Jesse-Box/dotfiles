@@ -5,11 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-if [[ -f "/opt/homebrew/bin/brew" ]] then
-  # If you're using macOS, you'll want this enabled
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -106,14 +101,5 @@ zstyle ':completion:*' menu no
 alias zshrc="vi .zshrc"
 alias ls="ls -lah --color"
 
-# Sentry Development Environment
+# direnv (used for Sentry Development Environment)
 eval "$(direnv hook zsh)"
-
-export VOLTA_HOME="$HOME/.volta"
-if ! grep --silent "$VOLTA_HOME/bin" <<< "$PATH"; then
-  export PATH="$VOLTA_HOME/bin:$PATH"
-fi
-
-export PATH="$HOME/.local/share/sentry-devenv/bin:$PATH"
-
-export SENTRY_POST_MERGE_AUTO_UPDATE=1
