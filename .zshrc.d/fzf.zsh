@@ -1,5 +1,3 @@
-source <(fzf --zsh)
-
 # Options Global
 export FZF_DEFAULT_OPTS="
   --ansi

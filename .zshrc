@@ -20,18 +20,63 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 # Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Add in Powerlevel10k
+# Adds Powerlevel10k
 zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# Add in zsh plugins
-zinit light zdharma-continuum/fast-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
 
 # Load completions
 autoload -Uz compinit && compinit
 
 zinit cdreplay -q
+
+# FZF Options (must be set before shell integration loads)
+export FZF_DEFAULT_OPTS="
+  --ansi
+  --multi
+  --layout=reverse
+  --border
+  --height=80%
+  --preview-window=right:60%
+  --bind=ctrl-/:toggle-preview
+  --bind=alt-a:select-all
+  --bind=alt-d:deselect-all
+"
+export FZF_CTRL_T_OPTS="--preview 'bat --style=full --color=always {}'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window=down:3:hidden"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+# Adds FZF
+zinit ice from"gh-r" as"program" \
+  atclone"./fzf --zsh > fzf.zsh" \
+  atpull"%atclone" \
+  pick"fzf" \
+  src"fzf.zsh"
+zinit load junegunn/fzf
+
+# Ripgrep + FZF integration (live preview, opens in vim)
+rfv() (
+  RELOAD='reload:rg --column --color=always --smart-case {q} || :'
+  OPENER='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+            vim {1} +{2}
+          else
+            vim +cw -q {+f}
+          fi'
+
+  fzf --disabled \
+      --bind "start:$RELOAD" \
+      --bind "change:$RELOAD" \
+      --bind "enter:become:$OPENER" \
+      --bind "ctrl-o:execute:$OPENER" \
+      --delimiter : \
+      --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+      --preview-window '~4,+{2}+4/3,<80(up)' \
+      --query "$*"
+)
+
+# Adds additional plugins
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -61,8 +106,14 @@ zstyle ':completion:*' menu no
 alias zshrc="vi .zshrc"
 alias ls="ls -lah --color"
 
-# Loading .zshrc.d/ .zsh files
-for file in "$HOME/.zshrc.d/"*.zsh; do
-  [ -r "$file" ] && source "$file"
-done
+# Sentry Development Environment
+eval "$(direnv hook zsh)"
 
+export VOLTA_HOME="$HOME/.volta"
+if ! grep --silent "$VOLTA_HOME/bin" <<< "$PATH"; then
+  export PATH="$VOLTA_HOME/bin:$PATH"
+fi
+
+export PATH="$HOME/.local/share/sentry-devenv/bin:$PATH"
+
+export SENTRY_POST_MERGE_AUTO_UPDATE=1
