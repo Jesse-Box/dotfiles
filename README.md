@@ -1,5 +1,5 @@
 # dotfiles
-The goal of my dotfiles is to provide great search capabilities with minimal dependencies or configuration. I utilise `git` and GNU `stow` to manage configuration files via symlinks, allowing changes to be versioned, reversible, and immediately reflected in $HOME.
+The goal of my dotfiles is to provide great search capabilities with minimal dependencies or configuration. I utilise `git` and GNU `stow` to manage configuration files via symlinks, allowing changes to be versioned, reversible, and immediately reflected in $HOME. 
 
 ## Features
 A unified interface for:
@@ -22,21 +22,20 @@ Interactively search for directories and cd into the selected result.
 - Ideal for navigating large projects or mono-repos
 - Faster than typing or tab-completing deep paths
 
-### `rfv`: Search File Contents (Ripgrep + FZF + vi)
+### `CTRL-F`: Search File Contents (Ripgrep + FZF + vi)
 Search inside files using `ripgrep`, then interactively filter and preview results with `fzf`.
 - Live search as you type
-- Syntax-highlighted previews (via bat, if installed)
+- Syntax-highlighted previews (via `bat`, if installed)
 - Jumps directly to matching lines
 
 ## Dependances
-Each dependency *should* be accessible from your package manager of choice. However, I can only verify this for `homebrew` right now.
+`fzf`, `ripgrep` and `bat` are responsible for almost all of the functionality in this shell configuration. However, because I use `zinit` as a shell package manager, these dependencies will be installed automatically once `.zshrc` is sourced for the first time. 
+
+The remaining dependencies *should* be accessible from your package manager of choice. However, I can only verify this for `homebrew` right now.
 
 | Name  | Required  | Role  |
 |:---|:---|:---|
 | [`zsh`](https://en.wikipedia.org/wiki/Z_shell)  | `true`  | Unfortunately, I only have a configuration file available for `zsh`  |
-| [`fzf`](https://github.com/junegunn/fzf#setting-up-shell-integration)  | `true`  | Without `fzf`, you can't search and filter through lists of items, such as files or command history, in an interactive way  |
-| [`ripgrep`](https://github.com/BurntSushi/ripgrep/tree/master)  | `true`  | Without `ripgrep`, you can't search through files and directories for specific text patterns  |
-| [`bat`](https://github.com/sharkdp/bat)  | `false`  | A drop-in replacement for the `cat` command. Without `bat`, the `fzf` preview won't have syntax highlighting.  |
 | [`git`](https://git-scm.com/)  | `false`  | Without `git`, you won't be able to safely make changes to the files within this repository  |
 | [`stow`](https://www.gnu.org/software/stow/)  | `false`  | Without `stow`, these repository files won't be symlinked to their expected locations relative to `$HOME` |
 | [`kitty`](https://sw.kovidgoyal.net/kitty/)  | `false`  | This repository has configuration files specific to the kitty terminal emulator  |
@@ -111,12 +110,8 @@ Example layout:
 ```text
 $HOME
 ├─ .zshrc              → symlink
-├─ .zshrc.d/
-│  └─ fzf.zsh          → symlink
 └─ dotfiles/
-   ├─ .zshrc
-   └─ .zshrc.d/
-      └─ fzf.zsh
+   └─ .zshrc
 ```
 Because of this:
 - You always edit files inside `~/dotfiles`
