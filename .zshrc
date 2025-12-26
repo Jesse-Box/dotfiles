@@ -39,7 +39,7 @@ export FZF_CTRL_T_OPTS="--preview 'bat --style=full --color=always {}'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window=down:3:hidden"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
-# Adds FZF
+# Adds fzf
 zinit ice from"gh-r" as"program" \
   atclone"./fzf --zsh > fzf.zsh" \
   atpull"%atclone" \
@@ -71,6 +71,14 @@ rfv() (
 rfv-widget() { rfv; zle reset-prompt }
 zle -N rfv-widget
 bindkey '^F' rfv-widget
+
+# Adds ripgrep
+zinit ice as"program" from"gh-r" mv"ripgrep* -> rg" pick"rg/rg"
+zinit light BurntSushi/ripgrep
+
+# Adds bat
+zinit ice as"program" from"gh-r" mv"bat* -> bat" pick"bat/bat"
+zinit light sharkdp/bat
 
 # Adds additional plugins
 zinit light zdharma-continuum/fast-syntax-highlighting
