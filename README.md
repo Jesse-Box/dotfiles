@@ -29,6 +29,10 @@ Search inside files using `ripgrep`, then interactively filter and preview resul
 - Jumps directly to matching lines
 
 ## Dependances
+> [!IMPORTANT]
+> You dont need to install the 'zinit' package manager. That will be installed when the '.zshrc' is sourced for the first time.
+
+
 `fzf`, `ripgrep` and `bat` are responsible for almost all of the functionality in this shell configuration. However, because I use `zinit` as a shell package manager, these dependencies will be installed automatically once `.zshrc` is sourced for the first time. 
 
 The remaining dependencies *should* be accessible from your package manager of choice. However, I can only verify this for `homebrew` right now.
