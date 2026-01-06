@@ -16,7 +16,7 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Adds Powerlevel10k
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit light romkatv/powerlevel10k
 
 # Load completions
 autoload -Uz compinit && compinit
@@ -115,6 +115,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Aliases
 alias zshrc="vi .zshrc"
 alias ls="ls -lah --color"
+alias nas="ssh jessebox@192.168.178.22 -p24"
 
 # direnv (used for Sentry Development Environment)
 eval "$(direnv hook zsh)"
