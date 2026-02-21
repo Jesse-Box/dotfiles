@@ -5,8 +5,7 @@
 #: kitty has very powerful font management. You can configure
 #: individual font faces and even specify special fonts for particular
 #: characters.
-
-font_family      JetBrainsMono Nerd Font Mono
+font_family      family="JetBrains Mono"
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
@@ -21,6 +20,7 @@ bold_italic_font auto
 #: syntax>.
 
 font_size 14.0
+modify_font cell_height 120%
 
 #: Font size (in pts).
 
@@ -1058,7 +1058,7 @@ font_size 14.0
 #: works on Wayland. See also kitty --position to specify the position
 #: when launching kitty.
 
-# enabled_layouts *
+enabled_layouts Grid, *
 
 #: The enabled window layouts. A comma separated list of layout names.
 #: The special value all means all layouts. The first listed layout
@@ -1074,7 +1074,7 @@ font_size 14.0
 #: start_resizing_window. The cells value is used for horizontal
 #: resizing, and the lines value is used for vertical resizing.
 
-# window_border_width 0.5pt
+window_border_width 2pt
 
 #: The width of window borders. Can be either in pixels (px) or pts
 #: (pt). Values in pts will be rounded to the nearest number of pixels
@@ -1101,7 +1101,7 @@ font_size 14.0
 #: windows visible, this option has no effect and normal border
 #: drawing rules apply.
 
-# window_margin_width 0
+window_margin_width 4
 
 #: The window margin (in pts) (blank area outside the border). A
 #: single value sets all four sides. Two values set the vertical and
@@ -1116,7 +1116,7 @@ font_size 14.0
 #: set the vertical and horizontal sides. Three values set top,
 #: horizontal and bottom. Four values set top, right, bottom and left.
 
-# window_padding_width 0
+window_padding_width 8 12
 
 #: The window padding (in pts) (blank area between the text and the
 #: window border). A single value sets all four sides. Two values set
@@ -1273,7 +1273,7 @@ font_size 14.0
 #: The second number is the margin between the tab bar and the
 #: contents of the current tab.
 
-# tab_bar_style fade
+tab_bar_style slant
 
 #: The tab bar style, can be one of:
 
@@ -2094,7 +2094,7 @@ font_size 14.0
 #: use the background color of the currently active window and finally
 #: you can use an arbitrary color, such as #12af59 or red.
 
-# macos_option_as_alt no
+macos_option_as_alt yes
 
 #: Use the Option key as an Alt key on macOS. With this set to no,
 #: kitty will use the macOS native Option+Key to enter Unicode
