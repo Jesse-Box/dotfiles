@@ -125,4 +125,5 @@ alias nas="ssh jessebox@192.168.178.22 -p24"
 # direnv (used for Sentry Development Environment)
 if [[ $(uname) == "Darwin" ]]; then
     eval "$(direnv hook zsh)"
+    export PATH="$HOME/.local/bin:$PATH"
 fi
