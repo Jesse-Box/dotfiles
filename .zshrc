@@ -126,5 +126,3 @@ alias nas="ssh jessebox@192.168.178.22 -p24"
 if [[ $(uname) == "Darwin" ]]; then
     eval "$(direnv hook zsh)"
 fi
-
-. "$HOME/.local/bin/env"
