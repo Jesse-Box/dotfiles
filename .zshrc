@@ -123,6 +123,8 @@ alias ls="ls -lah --color"
 alias nas="ssh jessebox@192.168.178.22 -p24"
 
 # direnv (used for Sentry Development Environment)
-eval "$(direnv hook zsh)"
+if [[ $(uname) == "Darwin" ]]; then
+    eval "$(direnv hook zsh)"
+fi
 
 . "$HOME/.local/bin/env"
