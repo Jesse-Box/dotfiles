@@ -7,15 +7,55 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "icon_theme": "Zed (Default)",
+  "session": {
+    "trust_all_worktrees": true,
+  },
+
+  "base_keymap": "VSCode",
+  "minimap": {
+    "show": "never",
+    "thumb": "always",
+    "max_width_columns": 200,
+  },
+
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000,
+    },
+  },
+
+  "soft_wrap": "editor_width",
+  "tab_size": 2,
+  "ui_font_size": 16,
+  "buffer_font_family": "JetBrains Mono",
+  "buffer_font_fallbacks": ["Menlo", "Monaco", "Courier New", "monospace"],
+  "buffer_font_size": 14.0,
   "buffer_line_height": "comfortable",
   "buffer_font_weight": 400.0,
-  "buffer_font_family": "JetBrains Mono",
-  "ui_font_size": 16,
-  "buffer_font_size": 15.0,
+
   "theme": {
     "mode": "system",
     "light": "Catppuccin Latte",
-    "dark": "Catppuccin Frappé"
-  }
+    "dark": "Catppuccin Frappé",
+  },
+
+  "languages": {
+    "TypeScript": {
+      "formatter": {
+        "external": {
+          "command": "node_modules/.bin/prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"],
+        },
+      },
+    },
+
+    "TSX": {
+      "formatter": {
+        "external": {
+          "command": "node_modules/.bin/prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"],
+        },
+      },
+    },
+  },
 }
